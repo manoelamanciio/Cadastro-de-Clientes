@@ -1,0 +1,186 @@
+
+# nome cliente,telefone, email,endereço, cpf, cep, sexo, data de nascimento
+#1. LISTA GLOBAL: nosso 'banco de dados' de clientes.
+import json
+nomeArquivo = 'clientes.json'
+
+clientes = []
+
+def salvar_dados():
+    global clientes
+    try:
+        with open(nomeArquivo, 'w', encoding='utf-8') as f:
+            json.dump(clientes, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        print(f"Erro ao salvar dados: {e}") 
+
+
+def carregar_dados():
+    global clientes
+    try:
+        with open(nomeArquivo, 'r', encoding='utf-8') as f:
+            clientes = json.load(f)
+    except FileNotFoundError:
+        pass        
+    except Exception as e:
+        print(f"Erro ao carregar dados: {e}")
+
+
+def adicionar_clientes():
+    global clientes
+    print("\n   Cadastro de Novo Cliente   ")
+
+    #coleta de dados
+    nome = input("Digite seu nome completo: ")
+    idade = input("Idade: ")
+    numeroTelefone = input ("Telefone com o DDD: ")
+    emailCliente = input ("E-mail: ")
+    cpf = input("CPF: ")
+    enderecoCliente = input("Endereço: ")
+    cepCliente = input("CEP: ")
+    sexo = input("SEXO:  (M)  OU  (F)  ")
+    dataNascimento = input("Data de nascimento: ")
+
+    print("                      ")
+
+
+    #Criação de Dicionario
+    novoCliente = {
+        "nome":nome,
+        "idade":idade,
+        "telefone":numeroTelefone,
+        "email":emailCliente,
+        "cpf":cpf,
+        "endereco":enderecoCliente,
+        "cep":cepCliente,
+        "sexo":sexo,
+        "data_nascimento":dataNascimento,
+
+    }
+    
+    #3. Adicionar o dicionario a lista
+    clientes.append(novoCliente)
+    print(f"Cliente {nome} cadastro com sucesso!")
+    salvar_dados()
+  
+
+# nome cliente,telefone, email,endereço, cpf, cep, sexo, data de nascimento
+def visualizarClientes():
+    global clientes
+    print("\n   Lista de Cliente Cadastrados   ")
+
+    if len(clientes) == 0:
+        print("Nenhum cliente cadastrado ainda.")
+    else:
+        for cliente in clientes:
+            print("                ")
+
+            print(f"Nome: {cliente['nome']}")
+            print(f"Idade: {cliente['idade']}")
+            print(f"Telefone: {cliente['telefone']}")
+            print(f"E-mail: {cliente['email']}")
+            print(f"CPF: {cliente['cpf']}")
+            print(f"Endereço: {cliente['endereco']}")
+            print(f"CEP: {cliente['cep']}")
+            print(f"Data de nascimento: {cliente['data_nascimento']}")
+            print(f"SEXO: {cliente['sexo']}")
+            print("                       ")
+
+
+def buscar_clientes():
+    global clientes
+    print("\n    Buscar Clientes   ")
+    
+    #1.obter a informação de busca do usuário.
+    termo_busca = input("Digite o CPF (somente números) ou o nome do cliente: ").strip()
+    cliente_econtrado = None #inicializa a variável para rastrear o cliente encontrado
+
+    for cliente in clientes:
+        if cliente['cpf'] == termo_busca or cliente['nome'].lower() == termo_busca.lower():
+           cliente_econtrado = cliente #armazena o cliente encontrado
+           break #sai do loop assim que encontra o primeiro resultado. 
+
+    if cliente_econtrado:
+        print(f"\n Cliente Encontrado: {cliente_econtrado['nome']}")
+        print("                       ")
+
+        for chave, valor in cliente_econtrado.items():
+            print(f"{chave.replace('_', ' ').title()}: {valor}")
+        print("                         ")
+    else:
+        print (f"\n Cliente com CPF/Nome'{termo_busca}' não foi encontrado.")            
+
+
+def excluir_cliente():
+    global clientes
+    print("\n     Excluir Cliente     ")
+
+    cpf_excluir = input("Digite o CPF do cliente que deseja EXCLUIR: ").strip()
+    cliente_removido = False
+
+    for cliente in clientes:
+        if cliente['cpf'] == cpf_excluir:
+            clientes.remove(cliente)
+            cliente_removido = True
+            break
+
+    if cliente_removido:
+        print(f"Cliente com CPF {cpf_excluir} foi EXCLUÍDO com sucesso!")
+        salvar_dados()
+    else:
+        print(f"Erro: Cliente com CPF {cpf_excluir} não foi encontrado.")        
+
+
+#FUNÇÃO DE CONTROLE PRINCIPAL
+def menuPrincipal():
+    while True:
+        print("\n     Menu do Restaurante     ")
+        print("1. Cadastrar Novo Cliente")
+        print("2. Visualizar Todos os Clientes")
+        print("3. Buscar Cliente")
+        print("4. Excluir Cliente")
+        print("5. Sair do Programa")
+
+        opcao = input("Escolha uma opção (1) (2) (3) (4) (5): ")
+
+        if opcao == '1':
+            adicionar_clientes()
+        elif opcao == '2':
+            visualizarClientes()
+        elif opcao == '3':
+            buscar_clientes()
+        elif opcao == '4':  
+            excluir_cliente()
+        elif opcao == '5':
+            salvar_dados()
+            print("Obrigado por usar o sistema! Encerrando...")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")     
+
+
+if __name__ == '__main__':
+    carregar_dados()
+    menuPrincipal()          
+
+
+
+
+
+       
+
+
+    
+
+
+
+
+            
+
+
+
+
+
+
+
+
