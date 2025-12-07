@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Rodar GUI SEM CONSOLE",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "none", 
+            "justMyCode": true
+        }
+    ]
+}
