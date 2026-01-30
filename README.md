@@ -41,3 +41,9 @@ Essas operações são salvas de forma permanente no banco SQLite (`cadastro_cli
 1. Clone o repositório:
    ```bash
    git clone https://github.com/manoelamanciio/Cadastro-de-Clientes.git
+
+cd Cadastro-de-Clientes
+
+python cadastro_clientes.py
+
+
